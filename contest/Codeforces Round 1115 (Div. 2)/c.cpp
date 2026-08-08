@@ -35,7 +35,7 @@ void solve() {
    int blocks = m;
    int cost;
    vector<int> best(2*m, 0);
-   for(int i = n-1; i>=0; i++)
+   for(int i = n-1; i>=0; i--)
    {
         cost = stab[i];
         for(int j=m; j < 2*m; j++)
@@ -63,11 +63,19 @@ int main() {
     fastio;
 
     #ifndef ONLINE_JUDGE
-        freopen("/Users/divyesamdani/Documents/Stuff/input.txt", "r", stdin);
+        if (!freopen("/Users/divyesamdani/Documents/Stuff/input.txt", "r", stdin)) {
+            cerr << "ERROR: Could not open input.txt!" << "\n";
+            return 1;
+        }
     #endif
 
     int t;
-    cin >> t;
+    // This checks if 't' actually received a valid number from the file
+    if (!(cin >> t)) {
+        cerr << "ERROR: input.txt is empty or invalid!" << "\n";
+        return 1;
+    }
+    
     while(t--) {
         solve();
     }
