@@ -1,6 +1,5 @@
 #include <bits/stdc++.h>
 #include <iostream>
-#include <unordered_map>
 using namespace std;
 
 using ll = long long;
@@ -13,76 +12,84 @@ const ll INF = 1e18;
 #define leadz(x) __builtin_clzll(x)
 
 void solve() {
-   int n, m, x,y; cin >> n >>m >> x >> y;
-   vector<int> a(x);
-   vector<int> b(y);
-   for(int i =0; i<x; i++)
-   {
-       cin >> a[i];
-   }
-   for(int i =0; i<y; i++)
-   {
-       cin >> b[i];
-   }
+    int n, m, x, y; cin >> n >> m >> x >> y;
+    vector<int> a(x), b(y);
+    for(int i = 0; i < x; i++)
+    {
+        cin >> a[i];
+    }
+    for(int i = 0; i < y; i++)
+    {
+        cin >> b[i];
+    }
+    reverse(a.begin(), a.end());
+    reverse(b.begin(), b.end());
 
-   ll s1 = 0;
-   ll s2 = 0;
-   for(int i =0; i < min(x, n); i++)
-   {
-       if(i < y && a[i] != b[i])
-       {
-            s1+=a[i];
-       }
-       if(i >= y)
-       {
-           s1+=a[i];
-       }
+    int i = 0; int j = 0;
+    ll s = 0;
+    int ops = 0;
+    int tot = min(m,y) + min(n,x);
+    if(tot == m+n)
+    {
+        tot--;
+    }
 
-       
-   }
-   for(int i =0; i < min(y,m); i++)
-   {
-       if(i < x && a[i] != b[i])
-       {
-            s2+=b[i];
-       }
-       if(i >= x)
-       {
-           s2+=b[i];
-       } 
-   }
-   cout << s2 << " s1  " << s1 << "\n" ;
-   if (s2 > s1)
-   {
-       int m = min(x, n);
-       if (s1 != 0)
-       {
-           m--;   
-       }
-        
-       for(int i =0; i < m; i++)
-       {
-           s2+= a[i];
-       }
+    int row = 0;
+    int col = 0;
+    int a1 = 0;
+    int b1 = 0;
 
-   }
-   else
-   {
-       int m = min(y, m);
-       if(s2!=0)
-       {
-           m--;
-       }
-       for(int i =0; i < m ; i++)
-       {
-           s1+=b[i];
-       }
-   }
-   
+    while(ops < tot && (i < x || j < y))
+    {
+        if(i < x && j < y && a[i] == b[j])
+        {
+            if(row < n)
+            {
+                 s += a[i];
+                 row++;
+                 a1++;
+            }
+            else if (col < m)
+            {
+                s += b[j];
+                col++;
+                b1++;
+            }
+            i++;
+            j++;
+            ops++;
+        }
+        else if (i < x && row == n && col < m && a1 > 0 && (j >= y || a[i] > b[j]))
+        {
+            row--;
+            a1--;
+        }
+        else if (j < y && col == m && row < n && b1 > 0 && (i >= x || b[j] > a[i]))
+        {
+            col--;
+            b1--;
+        }
+        else if((i < x && row < n) && ((j >= y) || ((j < y && (a[i] > b[j]) || col >= m))))
+        {
+            s += a[i];
+            row++;
+            i++;
+            ops++;
+        }
+        else if((j < y && col < m) && ((i >= x) || ((i < x && (a[i] < b[j]) || row >= n))))
+        {
+            s += b[j];
+            col++;
+            j++;
+            ops++;
+        }
+        else
+        {
+            break;
+        }
+    }
 
-   cout << max(s1, s2) << "\n";
-
-
+    cout << s << "\n";
 }
 
 int main() {
@@ -92,7 +99,7 @@ int main() {
         freopen("/Users/divyesamdani/Documents/Stuff/input.txt", "r", stdin);
     #endif
 
-    int t;
+    int t = 1;
     cin >> t;
     while(t--) {
         solve();
