@@ -1,0 +1,58 @@
+#include <bits/stdc++.h>
+#include <iostream>
+using namespace std;
+
+using ll = long long;
+const int MOD = 1e9 + 7;
+const ll INF = 1e18;
+
+#define fastio ios::sync_with_stdio(false); cin.tie(NULL);
+#define popcnt(x) __builtin_popcountll(x)
+#define trailz(x) __builtin_ctzll(x)
+#define leadz(x) __builtin_clzll(x)
+
+void solve() {
+   int n; cin >> n;
+   vector<int> arr(n);
+   for(auto &x : arr)
+   {
+       cin >> x;
+   }
+   ll s = arr[0];
+   for(int i = 1; i < n; i++)
+   {
+       s^= arr[i];
+   }
+
+   int w = (s == 0 ? 1 : 0);
+
+   if(n <2 )
+   {
+       cout << 0 << "\n";
+       return;
+   }
+   for(auto x : arr)
+   {
+       if((s^x) < x)
+       {
+           w++;
+       }
+   }
+   cout << w << "\n";
+}
+
+int main() {
+    fastio;
+
+    #ifndef ONLINE_JUDGE
+        freopen("/Users/divyesamdani/Documents/Stuff/input.txt", "r", stdin);
+    #endif
+
+    int t;
+    cin >> t;
+    while(t--) {
+        solve();
+    }
+
+    return 0;
+}
